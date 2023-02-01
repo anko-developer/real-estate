@@ -1,19 +1,31 @@
 <template>
+  <div v-if="modalState" class="black-bg">
+    <div class="modal">
+      <h4>타이틀</h4>
+      <p>내용</p>
+      <button @click="modalToggle">닫기</button>
+    </div>
+    
+  </div>
   <nav class="menu">
     <a v-for="(item, index) in menuItems" :key="index" href="#">{{ item }}</a>
   </nav>
 
   <h1>원룸샵</h1>
-  <div v-for="(item, index) in products" :key="index">
-    <h4>{{ item.name }}</h4>
+  <div v-for="item in productsItem" :key="item.id">
+    <img :src="item.image" alt="" class="room-img">
+    <h4>{{ item.title }}</h4>
     <p>{{ item.price }}만원</p>
+    <p>{{ item.content }}</p>
     <button @click="reportPlus(item)">허위매물신고</button>
     <span>신고수: {{ item.report }}</span>
   </div>
 </template>
 
 <script setup>
-import { reactive } from 'vue';
+import { ref, reactive } from 'vue';
+import { vuedongsan }  from '@/api';
+const productsItem = reactive(vuedongsan);
 
 const menuItems = reactive([
   'Home',
@@ -21,31 +33,34 @@ const menuItems = reactive([
   'About',
 ]);
 
-const products = reactive([
-  {
-    name: '역삼동원룸',
-    price: 70,
-    report: 0,
-  },
-  {
-    name: '천호동원룸',
-    price: 50,
-    report: 1,
-  },
-  {
-    name: '마포구원룸',
-    price: 100,
-    report: 2,
-  },
-]);
-
-// const errorCount = ref(0);
 const reportPlus = (item) => {
   item.report = ++item.report;
+};
+
+const modalState = ref(true);
+const modalToggle = () => {
+    modalState.value = !modalState.value;
 };
 </script>
 
 <style lang="scss" scoped>
+body {
+  margin : 0;
+}
+div {
+  box-sizing: border-box;
+}
+.black-bg {
+  width: 100%; height:100%;
+  background: rgba(0,0,0,0.5);
+  position: fixed; padding: 20px;
+}
+.modal {
+  width: 100%; background: white;
+  border-radius: 8px;
+  padding: 20px;
+} 
+
 .menu {
   background : darkslateblue;
   padding : 15px;
@@ -54,5 +69,10 @@ const reportPlus = (item) => {
 .menu a {
   color : white;
   padding : 10px;
+}
+
+.room-img {
+  width: 100%;
+  margin-top: 40px;
 }
 </style>
