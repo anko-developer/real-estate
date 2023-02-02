@@ -1,24 +1,26 @@
 <template>
-  <div v-if="modalState" class="black-bg">
-    <div class="modal">
-      <h4>타이틀</h4>
-      <p>내용</p>
-      <button @click="modalToggle">닫기</button>
+  <div>
+    <div v-if="modalState" class="black-bg">
+      <div class="modal">
+        <h4>타이틀</h4>
+        <p>내용</p>
+        <button @click="modalToggle">닫기</button>
+      </div>
+      
     </div>
-    
-  </div>
-  <nav class="menu">
-    <a v-for="(item, index) in menuItems" :key="index" href="#">{{ item }}</a>
-  </nav>
+    <nav class="menu">
+      <a v-for="(item, index) in menuItems" :key="index" href="#">{{ item }}</a>
+    </nav>
 
-  <h1>원룸샵</h1>
-  <div v-for="item in productsItem" :key="item.id">
-    <img :src="item.image" alt="" class="room-img">
-    <h4>{{ item.title }}</h4>
-    <p>{{ item.price }}만원</p>
-    <p>{{ item.content }}</p>
-    <button @click="reportPlus(item)">허위매물신고</button>
-    <span>신고수: {{ item.report }}</span>
+    <h1>원룸샵</h1>
+    <div v-for="item in productsItem" :key="item.id">
+      <img :src="item.image" alt="" class="room-img">
+      <h4>{{ item.title }}</h4>
+      <p>{{ item.price }}만원</p>
+      <p>{{ item.content }}</p>
+      <button @click="reportPlus(item)">허위매물신고</button>
+      <span>신고수: {{ item.report }}</span>
+    </div>
   </div>
 </template>
 
@@ -37,7 +39,7 @@ const reportPlus = (item) => {
   item.report = ++item.report;
 };
 
-const modalState = ref(true);
+const modalState = ref(false);
 const modalToggle = () => {
     modalState.value = !modalState.value;
 };
