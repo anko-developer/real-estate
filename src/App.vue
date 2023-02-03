@@ -1,21 +1,15 @@
 <template>
   <div>
-    <div v-if="modalState" class="black-bg">
-      <div class="modal">
-        <h4>타이틀</h4>
-        <p>내용</p>
-        <button @click="modalToggle">닫기</button>
-      </div>
-      
-    </div>
     <nav class="menu">
       <a v-for="(item, index) in menuItems" :key="index" href="#">{{ item }}</a>
     </nav>
+    <TheModal :modalState="modalState" :productsItem="productsItem" :modalId="modalId" />
+    <DiscountWord />
 
     <h1>원룸샵</h1>
-    <div v-for="item in productsItem" :key="item.id">
+    <div v-for="(item, index) in productsItem" :key="index">
       <img :src="item.image" alt="" class="room-img">
-      <h4>{{ item.title }}</h4>
+      <h4 @click="modalToggle(index)">{{ item.title }}</h4>
       <p>{{ item.price }}만원</p>
       <p>{{ item.content }}</p>
       <button @click="reportPlus(item)">허위매물신고</button>
@@ -27,6 +21,8 @@
 <script setup>
 import { ref, reactive } from 'vue';
 import { vuedongsan }  from '@/api';
+import DiscountWord from '@/components/DiscountWord.vue';
+import TheModal from '@/components/TheModal.vue';
 const productsItem = reactive(vuedongsan);
 
 const menuItems = reactive([
@@ -39,9 +35,11 @@ const reportPlus = (item) => {
   item.report = ++item.report;
 };
 
+const modalId = ref(null);
 const modalState = ref(false);
-const modalToggle = () => {
+const modalToggle = (i = '') => {
     modalState.value = !modalState.value;
+    modalId.value = i;
 };
 </script>
 
@@ -52,16 +50,6 @@ body {
 div {
   box-sizing: border-box;
 }
-.black-bg {
-  width: 100%; height:100%;
-  background: rgba(0,0,0,0.5);
-  position: fixed; padding: 20px;
-}
-.modal {
-  width: 100%; background: white;
-  border-radius: 8px;
-  padding: 20px;
-} 
 
 .menu {
   background : darkslateblue;
