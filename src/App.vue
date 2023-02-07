@@ -7,14 +7,15 @@
     <DiscountWord />
 
     <h1>원룸샵</h1>
-    <div v-for="(item, index) in productsItem" :key="index">
+    <TheCard :item="item" v-for="(item, index) in productsItem" :key="index" />
+    <!-- <div v-for="(item, index) in productsItem" :key="index">
       <img :src="item.image" alt="" class="room-img">
       <h4 @click="modalToggle(index)">{{ item.title }}</h4>
       <p>{{ item.price }}만원</p>
       <p>{{ item.content }}</p>
       <button @click="reportPlus(item)">허위매물신고</button>
       <span>신고수: {{ item.report }}</span>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -23,6 +24,7 @@ import { ref, reactive } from 'vue';
 import { vuedongsan }  from '@/api';
 import DiscountWord from '@/components/DiscountWord.vue';
 import TheModal from '@/components/TheModal.vue';
+import TheCard from '@/components/TheCard.vue';
 const productsItem = reactive(vuedongsan);
 
 const menuItems = reactive([
@@ -31,16 +33,8 @@ const menuItems = reactive([
   'About',
 ]);
 
-const reportPlus = (item) => {
-  item.report = ++item.report;
-};
-
 const modalId = ref(null);
 const modalState = ref(false);
-const modalToggle = (i = '') => {
-    modalState.value = !modalState.value;
-    modalId.value = i;
-};
 </script>
 
 <style lang="scss" scoped>
