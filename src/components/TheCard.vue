@@ -1,7 +1,7 @@
 <template>
   <div>
     <img :src="item.image" alt="" class="room-img">
-    <!-- <h4 @click="modalToggle(index)">{{ item.title }}</h4> -->
+    <h4 @click="$emit('openModal', item.id)">{{ item.title }}</h4>
     <p>{{ item.price }}만원</p>
     <p>{{ item.content }}</p>
     <!-- <button @click="reportPlus(item)">허위매물신고</button> -->
