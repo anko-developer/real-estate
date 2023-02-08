@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits, ref, watch } from 'vue';
+import { defineProps, defineEmits, ref, watch, onBeforeUpdate } from 'vue';
 
 defineProps({
   productsItem: Array,
@@ -35,7 +35,13 @@ watch(month, (a) => { // a는 변경 후 데이터, b는 변경 전 데이터
     month.value = 1;
     console.log('숫자가 아니잖아?');
   }
-}); 
+});
+
+onBeforeUpdate(() => {
+  if (month.value <= 2) {
+    console.log('2개월 이상은 써야한다구 칭구');
+  }
+});
 </script>
 
 <style lang="scss" scoped>

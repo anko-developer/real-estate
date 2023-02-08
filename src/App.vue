@@ -6,7 +6,7 @@
     <Transition name="fade">
       <TheModal @modalClose="modalState = $event" :modalState="modalState" :productsItem="productsCopyItem" :modalId="modalId" />
     </Transition>
-    <DiscountWord />
+    <DiscountWord :discount="discount" />
 
     <button @click="priceSort">가격순정렬</button>
     <button @click="titleSort">제목순정렬</button>
@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import { vuedongsan }  from '@/api';
 import DiscountWord from '@/components/DiscountWord.vue';
 import TheModal from '@/components/TheModal.vue';
@@ -53,6 +53,18 @@ const titleSort = () => {
   productsCopyItem.sort(compare('title'));
   console.log('되돌린다.', productsCopyItem);
 };
+
+const discount = ref(30);
+
+// const showDiscount = ref(true);
+onMounted(() => {
+  const timer = setInterval(() => {
+    discount.value--;
+    if (discount.value === 0) {
+      clearInterval(timer);
+    }
+  }, 1000);
+});
 </script>
 
 <style lang="scss" scoped>
